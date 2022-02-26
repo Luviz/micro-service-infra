@@ -1,0 +1,60 @@
+version: '3.9'
+services:
+  blog_dynamodb:
+    image:  amazon/dynamodb-local
+    container_name: blog_dynamodb
+    # hostname: blog.dynamodb
+    restart: always
+    volumes:
+      - ./store:/home/dynamodblocal/data
+    networks: 
+      - blog
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath /home/dynamodblocal/data/"
+
+  img_dynamodb:
+    image:  amazon/dynamodb-local
+    container_name: img_dynamodb
+    # hostname: img.dynamodb
+    restart: always
+    volumes:
+      - ./store/db-img:/home/dynamodblocal/data
+    networks: 
+      - imageprocess
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath /home/dynamodblocal/data/"
+
+  # dynamodb Admin
+  admin_blog_dynamodb:
+    image:  aaronshaf/dynamodb-admin
+    environment:
+      DYNAMO_ENDPOINT: "http://blog_dynamodb:8000"
+      AWS_REGION: "us-west-2"
+      AWS_ACCESS_KEY_ID: local
+      AWS_SECRET_ACCESS_KEY: local
+    networks:
+      - blog
+    ports:
+      - 8001:8001
+    depends_on:
+      - blog_dynamodb
+
+  admin_img_dynamodb:
+    image:  aaronshaf/dynamodb-admin
+    environment:
+      DYNAMO_ENDPOINT: "http://img_dynamodb:8000"
+      AWS_REGION: "us-west-2"
+      AWS_ACCESS_KEY_ID: local
+      AWS_SECRET_ACCESS_KEY: local
+    networks:
+      - imageprocess
+    ports:
+      - 8002:8001
+    depends_on:
+      - img_dynamodb
+
+networks:
+  imageprocess:
+    name: meh
+    driver: bridge
+  blog:
+    name: peh
+    driver: bridge
