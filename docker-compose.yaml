@@ -51,6 +51,20 @@ services:
     depends_on:
       - img_dynamodb
 
+  # backends 
+  blog_backend:
+    container_name: luviz-msi-blog_back
+    build:
+      context: ./blog-back
+      dockerfile: Dockerfile
+    networks:
+      - blog
+    ports:
+      - 8010:80    
+    depends_on:
+      - blog_dynamodb
+
+
 networks:
   imageprocess:
     name: meh
