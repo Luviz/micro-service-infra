@@ -1,0 +1,6 @@
+#! /bin/bash
+
+docker run \
+    -p '8080:80' \
+    --volume="$PWD/app:/server/app" \
+    blog-backend-dev
