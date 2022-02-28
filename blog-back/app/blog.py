@@ -17,7 +17,7 @@ class Item():
 
 @router.get("/")
 async def root():
-    return {"message": "Hello World3"}
+    return {"message": "Hello World"}
 
 
 @router.get("/meh")
