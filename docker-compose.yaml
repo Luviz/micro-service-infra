@@ -67,8 +67,8 @@ services:
 
 networks:
   imageprocess:
-    name: meh
+    name: imageprocess
     driver: bridge
   blog:
-    name: peh
+    name: blog
     driver: bridge
