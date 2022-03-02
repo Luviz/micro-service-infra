@@ -3,7 +3,7 @@ services:
   blog_dynamodb:
     image:  amazon/dynamodb-local
     container_name: blog_dynamodb
-    # hostname: blog.dynamodb
+    hostname: blog.dynamodb
     restart: always
     volumes:
       - ./store:/home/dynamodblocal/data
@@ -14,7 +14,7 @@ services:
   img_dynamodb:
     image:  amazon/dynamodb-local
     container_name: img_dynamodb
-    # hostname: img.dynamodb
+    hostname: img.dynamodb
     restart: always
     volumes:
       - ./store/db-img:/home/dynamodblocal/data
@@ -54,6 +54,8 @@ services:
   # backends 
   blog_backend:
     container_name: luviz-msi-blog_back
+    environment:
+      - DB_URL=http://blog.dynamodb:8000
     build:
       context: ./blog-back
       dockerfile: DEV.Dockerfile
