@@ -4,10 +4,16 @@ import boto3
 
 def create_movie_table(dynamodb=None):
     if not dynamodb:
-        dynamodb = boto3.resource('dynamodb', endpoint_url=environ['DB_URL'])
-
+        # dynamodb = boto3.resource(
+        # 'dynamodb', endpoint_url='http://localhost:8000', region_name='us-west-2')
+        dynamodb = boto3.session('dynamodb',
+                                 aws_access_key_id="anything",
+                                 aws_secret_access_key="anything",
+                                 region_name="us-west-2",
+                                 endpoint_url="http://localhost:8000")
+    print('aaa')
     table = dynamodb.create_table(
-        TableName=environ['TABLE_NAME'],
+        TableName="meh",
         KeySchema=[
             {
                 'AttributeName': 'year',
@@ -38,5 +44,5 @@ def create_movie_table(dynamodb=None):
 
 
 if __name__ == '__main__':
-    # movie_table = create_movie_table()
+    movie_table = create_movie_table()
     print("Table status:", "movie_table.table_status")
