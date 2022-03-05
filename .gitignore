@@ -3,3 +3,8 @@ store
 ## python
 venv
 __pycache__
+
+## Node
+
+node_modules
+dist
