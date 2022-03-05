@@ -18,12 +18,6 @@ awsConfigs = {
 }
 
 
-@dataclass
-class Item():
-    meh: str
-    test: int
-
-
 @router.get("/", description="get list of all the blogs")
 async def list():
     list = blogApis.list()
