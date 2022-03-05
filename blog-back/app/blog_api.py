@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from fastapi import APIRouter, HTTPException, responses
+from fastapi import APIRouter, HTTPException, Response, responses, status
 import boto3
 from boto3 import exceptions
 from os import environ
@@ -32,8 +32,17 @@ async def list():
     return list
 
 
-@router.post("/")
-async def add(blog: RequestBlog):
+@router.get("/{id}")
+async def get(id: str):
+    res = blogApis.get(id)
+    if "Item" in res:
+        return res
+    raise HTTPException(status.HTTP_404_NOT_FOUND,
+                        detail='Could not find the item')
+
+
+@router.post("/", status_code=status.HTTP_202_ACCEPTED)
+async def add(blog: RequestBlog, res: Response):
     blogApis.new(Blog(**blog.asDict()))
 
 

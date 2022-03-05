@@ -21,7 +21,8 @@ def list():
 
 
 def get(id: str):
-    pass
+    table = get_table()
+    return table.get_item(Key={"id": id})
 
 
 def update(id: str, data):
