@@ -52,19 +52,11 @@ async def initBlog():
                 {
                     'AttributeName': 'id',
                     'KeyType': 'HASH'
-                },
-                {
-                    'AttributeName': 'title',
-                    'KeyType': 'RANGE'
                 }
             ],
             AttributeDefinitions=[
                 {
                     'AttributeName': 'id',
-                    'AttributeType': 'S'
-                },
-                {
-                    'AttributeName': 'title',
                     'AttributeType': 'S'
                 },
             ],
