@@ -1,7 +1,5 @@
 from dataclasses import dataclass
 from fastapi import APIRouter, HTTPException, Response, responses, status
-import boto3
-from boto3 import exceptions
 from os import environ
 import app.blog.Apis as blogApis
 from app.modals.Blog import Blog, RequestBlog
@@ -49,33 +47,7 @@ async def add(blog: RequestBlog, res: Response):
 @router.post("/initblog")
 async def initBlog():
     try:
-        dynamodb = boto3.resource(
-            'dynamodb', **awsConfigs)
-        tables_name = [table.name for table in dynamodb.tables.all()]
-        if (environ['TABLE_NAME'] in tables_name):
-            return responses.JSONResponse(status_code=312, content={"info": "table is already initialized"})
-
-        table = dynamodb.create_table(
-            TableName=environ['TABLE_NAME'],
-            KeySchema=[
-                {
-                    'AttributeName': 'id',
-                    'KeyType': 'HASH'
-                }
-            ],
-            AttributeDefinitions=[
-                {
-                    'AttributeName': 'id',
-                    'AttributeType': 'S'
-                },
-            ],
-            ProvisionedThroughput={
-                'ReadCapacityUnits': 10,
-                'WriteCapacityUnits': 10
-            }
-        )
-        table.wait_until_exists()
-
+        table = blogApis.init_blog_table()
         return {
             "tablesName": table.name
         }
@@ -83,9 +55,13 @@ async def initBlog():
     except ValueError as e:
         raise HTTPException(
             status_code=503, detail={"type": "ValueError", "message": e.args})
-    except exceptions.EndpointConnectionError as e:
-        raise HTTPException(
-            status_code=503, detail={"type": "EndpointConnectionError", "message": dict(e)})
+    except blogApis.TableExistitExpection:
+        return responses.JSONResponse(
+            status_code=312,
+            content={
+                "info": "table is already initialized"
+            }
+        )
     except Exception as e:
         return {
             'Error': type(e)

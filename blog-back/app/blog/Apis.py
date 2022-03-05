@@ -10,6 +10,10 @@ awsConfigs = {
 }
 
 
+class TableExistitExpection(Exception):
+    pass
+
+
 def get_table():
     dynamodb = boto3.resource('dynamodb', **awsConfigs)
     return dynamodb.Table(environ['TABLE_NAME'])
@@ -39,3 +43,35 @@ def new(data: Blog):
 
 def delete(id: str):
     pass
+
+
+def init_blog_table():
+    dynamodb = boto3.resource(
+        'dynamodb', **awsConfigs)
+
+    tables_name = [table.name for table in dynamodb.tables.all()]
+
+    if (environ['TABLE_NAME'] in tables_name):
+        raise TableExistitExpection from None
+
+    table = dynamodb.create_table(
+        TableName=environ['TABLE_NAME'],
+        KeySchema=[
+            {
+                'AttributeName': 'id',
+                'KeyType': 'HASH'
+            }
+        ],
+        AttributeDefinitions=[
+            {
+                'AttributeName': 'id',
+                'AttributeType': 'S'
+            },
+        ],
+        ProvisionedThroughput={
+            'ReadCapacityUnits': 10,
+            'WriteCapacityUnits': 10
+        }
+    )
+    table.wait_until_exists()
+    return table
