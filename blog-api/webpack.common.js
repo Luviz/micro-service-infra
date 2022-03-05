@@ -1,4 +1,3 @@
-console.log("aaa");
 const path = require("path");
 
 module.exports = {
@@ -8,6 +7,15 @@ module.exports = {
   },
   resolve: {
     extensions: [".js"],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(graphql|gql)$/,
+        exclude: /node_modules/,
+        loader: "graphql-tag/loader",
+      },
+    ],
   },
   target: "node",
 };
