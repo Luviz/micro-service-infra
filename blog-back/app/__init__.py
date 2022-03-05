@@ -1,2 +1,2 @@
-import app.blog.Blog
+import app.modals.Blog
 import app.blog.Apis

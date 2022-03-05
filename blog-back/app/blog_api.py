@@ -4,7 +4,7 @@ import boto3
 from boto3 import exceptions
 from os import environ
 import app.blog.Apis as blogApis
-from app.blog.Blog import Blog
+from app.modals.Blog import Blog, RequestBlog
 
 router = APIRouter(
     prefix='/blog',
@@ -33,8 +33,8 @@ async def list():
 
 
 @router.post("/")
-async def add(blog: Blog):
-    blogApis.new(blog)
+async def add(blog: RequestBlog):
+    blogApis.new(Blog(**blog.asDict()))
 
 
 @router.post("/initblog")

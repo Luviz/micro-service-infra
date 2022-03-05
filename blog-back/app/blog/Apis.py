@@ -1,4 +1,4 @@
-from app.blog.Blog import Blog
+from app.modals.Blog import Blog
 from os import environ
 import boto3
 

@@ -1,21 +1,29 @@
 from dataclasses import dataclass, asdict
+from re import A
 from typing_extensions import Self
 import uuid
 import json
 
 
 @dataclass
-class Blog():
-    id: str
+class RequestBlog():
     title: str
     author: str
     published: str
 
-    def __init__(self, title: str, author: str, published: str, id=None):
-        self.id = str(uuid.uuid4()) if id is None else id
-        self.title = title
-        self.author = author
-        self.published = published
+    def asDict(self):
+        return asdict(self)
+
+
+@dataclass
+class Blog():
+    title: str
+    author: str
+    published: str
+    id: str = None
+
+    def __post_init__(self):
+        self.id = str(uuid.uuid4()) if self.id == None else self.id
 
     def asDict(self):
         return asdict(self)
@@ -29,9 +37,10 @@ class Blog():
         return Blog(**val)
 
 
-if __name__ == '__main__':
-    print("tests")
-    blog1 = Blog("test1", "bardia jedi", "2022-12-02T00:00:00Z")
+def testBlog():
+    print("testBLog")
+    blog1 = Blog(title="test1", author="bardia jedi",
+                 published="2022-12-02T00:00:00Z")
     print(blog1.to_json())
     blog2 = Blog("test2", "bardia jedi", "2022-12-02T00:00:00Z", id='someId')
     print(blog2.to_json())
@@ -45,3 +54,18 @@ if __name__ == '__main__':
     }
     """
     print(Blog.from_json(json_data))
+
+
+def testReqBlog():
+    req = RequestBlog(title="title", author="baridajedi",
+                      published="2022-12-02T00:00:00Z")
+    dic = req.asDict()
+    print(req)
+    print(dic)
+    b = Blog(**req.asDict())
+    print(b)
+
+
+if __name__ == '__main__':
+    print("tests")
+    testReqBlog()
