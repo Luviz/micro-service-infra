@@ -1,33 +1,20 @@
-const books = [
-  {
-    title: "The Awakening",
-    author: "Kate Chopin",
-  },
-  {
-    title: "City of Glass",
-    author: "Paul Auster",
-  },
-];
+import fetch from "node-fetch";
 
+const blogUrl = `http://localhost:8010`;
 // Resolvers define the technique for fetching the types defined in the
 // schema. This resolver retrieves books from the "books" array above.
 export const resolvers = {
   Query: {
-    books: () => {
-      console.log("hello", books);
-      return books;
+    blogs: async () => {
+      const res = await fetch(`${blogUrl}/blog`)
+        .then((r) => r.json())
+        .then((d) => d.Items);
+      return res;
     },
-    meh: (parent, { req }) => {
-      const { meh } = req;
-      console.log(meh, req);
-      const res = [];
-      for (const book of books) {
-        books.title = `${meh} ${book.title}`;
-        res.push({
-          title: `${meh} ${book.title}`,
-          author: book.title,
-        });
-      }
+    getBlog: async (p, { id }) => {
+      const res = await fetch(`${blogUrl}/blog/${id}`)
+        .then((r) => r.json())
+        .then((d) => d.Item);
       return res;
     },
   },
