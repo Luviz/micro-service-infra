@@ -2,23 +2,27 @@ type Blog {
   id: String
   title: String
   author: String
-  publish: String
+  published: String
 }
 
 input NewBlog {
   title: String!
   author: String!
-  publish: String!
+  published: String!
 }
 
 input UpdateBlog {
   id: String!
   title: String
   author: String
-  publish: String
+  published: String
 }
 
 type Query {
   blogs: [Blog]
   getBlog(id: String): Blog
+}
+
+type Mutation {
+  newBlog(request: NewBlog!): Boolean
 }

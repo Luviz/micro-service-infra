@@ -18,4 +18,25 @@ export const resolvers = {
       return res;
     },
   },
+  Mutation: {
+    newBlog: async (p, { request }) => {
+      console.log({ request });
+      console.log(JSON.stringify(request));
+      const res = await fetch(`${blogUrl}/blog/`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(request),
+      })
+        .then((r) => {
+          console.log(r.status, r.statusText);
+          return r.json();
+        })
+        .then((_) => true)
+        .catch((_) => false);
+      console.log("res", res);
+      return res;
+    },
+  },
 };
