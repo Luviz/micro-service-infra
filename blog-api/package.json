@@ -3,11 +3,10 @@
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
   "scripts": {
-    "build": "webpack --config webpack.prod.cjs",
+    "build": "webpack --config webpack.prod.js",
     "start": "node dist/server",
-    "build:dev": "webpack --config webpack.dev.cjs",
+    "build:dev": "webpack --config webpack.dev.js",
     "start:dev": "pm2 start dist/server",
     "stop:dev": "pm2 stop dist/server",
     "predev": "npm run build && npm run start:dev",
