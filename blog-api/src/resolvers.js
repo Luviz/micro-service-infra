@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 
-const blogUrl = `http://localhost:8010`;
+const blogUrl = process.env["BLOG_URL"] || `http://localhost:8010`;
 // Resolvers define the technique for fetching the types defined in the
 // schema. This resolver retrieves books from the "books" array above.
 export const resolvers = {

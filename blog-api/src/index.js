@@ -4,7 +4,9 @@ import typeDefs from "./schema.gql";
 
 const server = new ApolloServer({ typeDefs, resolvers });
 
-server.listen({ port: 8080 }).then(({ url }) => {
+const port = process.env["PORT"] || 8080;
+
+server.listen({ port }).then(({ url }) => {
   console.log(`Server ready at ${url}`);
 });
 
