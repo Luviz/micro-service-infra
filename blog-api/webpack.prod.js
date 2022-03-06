@@ -11,6 +11,7 @@ module.exports = {
     extensions: [".js"],
   },
   target: "node",
+  watch: true,
 };
 
 const merge = require("webpack-merge");
