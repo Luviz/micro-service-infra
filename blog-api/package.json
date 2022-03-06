@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --config webpack.prod.js",
+    "prestart": "npm run build",
     "start": "node dist/server",
     "build:dev": "webpack --config webpack.dev.js",
     "start:dev": "pm2 start dist/server",
