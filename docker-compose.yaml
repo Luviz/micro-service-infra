@@ -46,8 +46,6 @@ services:
       AWS_SECRET_ACCESS_KEY: local
     networks:
       - imageprocess
-    ports:
-      - 8002:8001
     depends_on:
       - img_dynamodb
 
@@ -62,7 +60,7 @@ services:
     networks:
       - blog
     ports:
-      - 8010:80    
+      - 8010:80
     depends_on:
       - blog_dynamodb
 
@@ -75,12 +73,36 @@ services:
     environment:
       BLOG_URL: http://luviz-msi-blog_back
       PORT: 80 
+    ports:
+      - 8081:80
     networks:
       - blog 
-    ports:
-      - 4001:80
     depends_on:
       - blog_backend
+
+  nginx:
+    image: nginx
+    container_name: rev-proxy
+    depends_on:
+      - blog_api
+      - blog_backend
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 8080:80
+    networks:
+      - blog
+      - imageprocess
+
+
+  # test
+  net_work_test:
+    image: luviz/network-tools
+    tty: true
+    networks:
+      - blog
+      - imageprocess
+
 
 
 networks:
