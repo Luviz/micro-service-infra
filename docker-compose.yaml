@@ -59,8 +59,6 @@ services:
       DB_URL: "http://blog.dynamodb:8000"
     networks:
       - blog
-    ports:
-      - 8010:80
     depends_on:
       - blog_dynamodb
 
@@ -73,8 +71,6 @@ services:
     environment:
       BLOG_URL: http://luviz-msi-blog_back
       PORT: 80 
-    ports:
-      - 8081:80
     networks:
       - blog 
     depends_on:
