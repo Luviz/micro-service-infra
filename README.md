@@ -2,13 +2,13 @@
 
 General play ground for creating small service and connecting them.
 
-## start 
+## Start
 
 ```
 docker compose up
 ```
 
-## Develope 
+## Develop
 
 ```
 docker compose -f DEV.docker-compose.yaml up
