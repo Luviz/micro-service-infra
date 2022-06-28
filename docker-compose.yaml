@@ -90,6 +90,18 @@ services:
       - blog
       - imageprocess
 
+  video_back:
+    container_name: luviz-msi-video_back
+    build: 
+      context: ./video-back
+      dockerfile: Dockerfile
+    environment:
+      BLOG_URL: http://luviz-msi-video_back
+      PORT: 80 
+    networks:
+      - blog 
+
+
 
   # test
   net_work_test:
